@@ -1,43 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
+import axios from 'axios';
 
 function Register() {
-    return (
-        <>
-        <Container className='d-flex flex-column align-items-center justify-content-center text-center '>
-            <h1>Register</h1>
-            <Form>
-            <Form.Group className="mb-3" controlId="formBasicName">
-        <Form.Label>Name</Form.Label>
-        <Form.Control type="name" placeholder="Name" />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" placeholder="Enter email" />
-        <Form.Text className="text-muted">
-          We'll never share your email with anyone else.
-        </Form.Text>
-      </Form.Group>
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
 
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" />
-      </Form.Group>
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = { email: email, password: password, name: name };
+    axios.post('http://localhost:8080/users', data)
+      .then(response => {
+        console.log(response);
+        alert("Success");
+        setEmail('');
+        setPassword('');  
+        setName('');
 
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
-    </Form>
-      <Button variant="primary" className='mt-3' >
-        <a href="/" style={{textDecoration: "none", color: "white"}}>
-Login        </a>
-      </Button>
-        </Container>
-        </>
-      );
+        
+      })
+      .catch(error => {
+        alert(error);
+        });
+  };
 
+  return (
+    <>
+      <Container className='d-flex flex-column align-items-center justify-content-center text-center '>
+        <h1>Register</h1>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3" controlId="formBasicName"  >
+            <Form.Label>Name</Form.Label>
+            <Form.Control type="name" placeholder="Name" value={name} onChange={(event) => setName(event.target.value)} />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control type="email" placeholder="Enter email" value={email} onChange={(event) => setEmail(event.target.value)} />
+            <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text>
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control type="password" placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)} />
+          </Form.Group>
+
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
+        <Button variant="primary" className='mt-3' >
+          <a href="/" style={{textDecoration: "none", color: "white"}}>
+            Login
+          </a>
+        </Button>
+      </Container>
+    </>
+  );
 }
 
 export default Register;

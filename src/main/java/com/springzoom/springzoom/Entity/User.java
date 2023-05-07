@@ -28,7 +28,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String password;
 
     @ManyToMany
@@ -50,7 +50,11 @@ public class User {
         this.password = password;
         this.contacts = contacts;
     }
-
+    public User(Long id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
     public Long getId() {
         return this.id;
     }
@@ -114,6 +118,10 @@ public class User {
     public User contacts(List<User> contacts) {
         setContacts(contacts);
         return this;
+    }
+
+    public boolean isPresent() {
+        return false;
     }
 
  
