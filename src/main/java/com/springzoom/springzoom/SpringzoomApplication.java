@@ -9,5 +9,4 @@ public class SpringzoomApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringzoomApplication.class, args);
 	}
-
 }
