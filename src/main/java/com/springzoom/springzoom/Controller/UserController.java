@@ -108,7 +108,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
     }
-    
+     
     @DeleteMapping("/{id}/contacts/{contactId}")
     public User removeContact(@PathVariable Long id, @PathVariable Long contactId) {
         User user = userRepository.findById(id)

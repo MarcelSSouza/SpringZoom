@@ -3,24 +3,33 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
+import { useContext } from 'react';
+import UserContext from './UserContext';
+import { useNavigate } from 'react-router-dom';
+
+// Rest of the code remains the same
+
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { updateUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = { email: email, password: password };
     axios.post('http://localhost:8080/users/login', data)
       .then(response => {
-        alert("success");
         setEmail('');
         setPassword('');
-        window.location.replace('/home');
-
+        console.log(response.data);
+        updateUser(response.data);
+        sessionStorage.setItem('user', JSON.stringify(response.data));
+        navigate('/home')
       })
       .catch(error => {
-        
+        alert(error);
       });
   };
 

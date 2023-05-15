@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ import com.springzoom.springzoom.Entity.Meeting;
 import com.springzoom.springzoom.Entity.User;
 import com.springzoom.springzoom.Repository.MeetingRepository;
 import com.springzoom.springzoom.Repository.UserRepository;
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class MeetingController {
 
@@ -58,20 +59,37 @@ public class MeetingController {
     private int generateRandomNumber() {
         return (int)(Math.random() * (999999 - 100000 + 1) + 100000);
     }
-
     @GetMapping("/meetings/{email}")
-public ResponseEntity<List<Meeting>> getMeetingsByEmail(@PathVariable String email) {
-    // Find the user by email
-    User user = userRepository.findByEmail(email);
-
-    if (user == null) {
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<List<Meeting>> getMeetingsByEmail(@PathVariable String email) {
+        // Find the user by email
+        User user = userRepository.findByEmail(email);
+    
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+         LocalDate currentDate = LocalDate.now();
+        
+        System.out.println(currentDate);
+        // Retrieve the current and upcoming meetings associated with the user
+        List<Meeting> meetings = meetingRepository.findByEmail1OrEmail2AndMeetingDateAfter(email, email, currentDate);
+    
+        return ResponseEntity.ok(meetings);
     }
-
-    // Retrieve the meetings associated with the user
-    List<Meeting> meetings = meetingRepository.findByEmail1OrEmail2(email, email);
-
-    return ResponseEntity.ok(meetings);
-}
+    
+    @DeleteMapping("/meetings/delete/{meetingId}") 
+        public ResponseEntity<Meeting> deleteMeeting(@PathVariable Long meetingId) {
+            // Find the meeting by meeting ID
+            Meeting meeting = meetingRepository.findByMeetingId(meetingId);
+        
+            if (meeting == null) {
+                return ResponseEntity.notFound().build();
+            }
+        
+            // Delete the meeting from the database
+            meetingRepository.delete(meeting);
+        
+            return ResponseEntity.ok(meeting);
+        
+    }
 
 }
