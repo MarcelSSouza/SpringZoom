@@ -19,11 +19,10 @@ function Contacts() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [myId, setMyId] = useState('');
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = { name: name, email: email};
-    axios.post(`http://localhost:8080/users/${myId}/add-contact`, data)
+    const data = { name: name, email: email };
+    axios.post(`http://localhost:8080/users/${myId}/contacts`, data)
       .then(response => {
         console.log(response);
         alert("Contact added successfully!");
@@ -35,6 +34,7 @@ function Contacts() {
         alert("Failed to add contact: " + error.response.data.message);
       });
   };
+  
   return (
     <>
       <Navbar bg="light" expand="lg">

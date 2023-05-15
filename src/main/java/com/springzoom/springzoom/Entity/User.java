@@ -3,7 +3,7 @@ package com.springzoom.springzoom.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +14,9 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.JoinColumn;
 import java.util.Objects;
+import java.util.Set;
+
+import org.hibernate.engine.internal.Cascade;
 
 @Entity
 @Table(name = "users")
@@ -25,25 +28,33 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String email;
 
     @Column
     private String password;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_contacts",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "contact_id")
     )
-    private List<User> contacts = new ArrayList<>();
+    private Set<User> contacts;
+    
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_meetings",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "meeting_id")
+    )
+    private Set<Meeting> meetings;
 
 
     public User() {
     }
 
-    public User(Long id, String name, String email, String password, List<User> contacts) {
+    public User(Long id, String name, String email, String password,  Set<User>contacts) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -87,11 +98,11 @@ public class User {
         this.password = password;
     }
 
-    public List<User> getContacts() {
+    public  Set<User> getContacts() {
         return this.contacts;
     }
 
-    public void setContacts(List<User> contacts) {
+    public void setContacts( Set<User> contacts) {
         this.contacts = contacts;
     }
 
@@ -115,13 +126,9 @@ public class User {
         return this;
     }
 
-    public User contacts(List<User> contacts) {
+    public User contacts( Set<User> contacts) {
         setContacts(contacts);
         return this;
-    }
-
-    public boolean isPresent() {
-        return false;
     }
 
  

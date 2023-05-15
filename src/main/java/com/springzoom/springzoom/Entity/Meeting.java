@@ -1,4 +1,5 @@
 package com.springzoom.springzoom.Entity;
+import java.util.Set;
 
 
 import jakarta.persistence.Column;
@@ -6,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 import java.time.LocalDate;
@@ -35,6 +37,9 @@ public class Meeting {
 
     @Column(nullable = false)
     private Integer meetingId;
+
+    @ManyToMany(mappedBy = "meetings")
+    private Set<User> users;
 
     public Meeting() {
     }
@@ -103,4 +108,6 @@ public class Meeting {
     public void setMeetingId(Integer meetingId) {
         this.meetingId = meetingId;
     }
+
+    
 }

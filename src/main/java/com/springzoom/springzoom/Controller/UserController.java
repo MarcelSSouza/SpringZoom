@@ -1,8 +1,11 @@
 package com.springzoom.springzoom.Controller;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +20,10 @@ import com.springzoom.springzoom.Repository.UserRepository;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-@CrossOrigin(origins = "http://localhost:3000")
+
 @RestController
 @RequestMapping("/users")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
     @Autowired
     private UserRepository userRepository;
@@ -75,56 +79,36 @@ public class UserController {
     }
 
     @GetMapping("/{id}/contacts")
-    public List<User> getContacts(@PathVariable Long id) {
+    public Set<User> getContacts(@PathVariable Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow();
 
         return user.getContacts();
     }
 
-    @PostMapping("/{id}/contacts/{contactId}")
-    public User addContact(@PathVariable Long id, @PathVariable Long contactId) {
-        User user = userRepository.findById(id)
-                .orElseThrow();
-
-        User contact = userRepository.findById(contactId)
-                .orElseThrow();
-
-        user.getContacts().add(contact);
-        contact.getContacts().add(user);
-
-        userRepository.save(user);
-        userRepository.save(contact);
-
-        return user;
+    @PostMapping("/{userId}/contacts")
+    public ResponseEntity<String> addContact(@PathVariable Long userId, @RequestBody User contact) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+    
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            Set<User> contacts = user.getContacts();
+            
+            // Check if the contact already exists in the user's contacts
+            if (contacts.contains(contact)) {
+                return ResponseEntity.badRequest().body("Contact already exists");
+            }
+            
+            // Add the contact to the user's contacts
+            contacts.add(contact);
+            userRepository.save(user);
+    
+            return ResponseEntity.ok("Contact added successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
     }
-
-    @PostMapping("/{id}/add-contact")
-    public User addContactToUser(@PathVariable Long id, @RequestBody User contact) {
-        User user = userRepository.findById(id)
-                .orElseThrow();
-
-                contact = userRepository.findByEmail(contact.getEmail());
-
-                if (contact == null) {
-                    // handle case where user with specified email is not found
-                    return null;
-                }
-                
-                if (user.getContacts().contains(contact) || user.getId().equals(contact.getId())) {
-                    // handle case where contact already exists or is the same as the user
-                    return null;
-                }
-                
-                user.getContacts().add(contact);
-                contact.getContacts().add(user);
-                
-                userRepository.save(user);
-                userRepository.save(contact);
-                
-                return user;
-    }
-
+    
     @DeleteMapping("/{id}/contacts/{contactId}")
     public User removeContact(@PathVariable Long id, @PathVariable Long contactId) {
         User user = userRepository.findById(id)

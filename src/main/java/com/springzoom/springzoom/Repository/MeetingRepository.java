@@ -9,4 +9,6 @@ import com.springzoom.springzoom.Entity.User;
 
 @Repository
 public interface MeetingRepository extends JpaRepository<Meeting, Long> {
+
+    List<Meeting> findByEmail1OrEmail2(String email, String email2);
 }

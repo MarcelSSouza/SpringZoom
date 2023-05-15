@@ -25,11 +25,11 @@ function NewMeeting() {
     event.preventDefault();
     const data = {
       title: title,
-      date: date,
-      hour: hour,
+      meetingDate: date,
+      meetingTime: hour,
       meetingId: meetingId,
-      yourEmail: yourEmail,
-      otherUserEmail: otherUserEmail,
+      email1: yourEmail,
+      email2: otherUserEmail,
     };
     axios
       .post("http://localhost:8080/meetings", data)
@@ -44,7 +44,7 @@ function NewMeeting() {
       })
       .catch((error) => {
         console.log(error);
-        alert("Error");
+        alert(error);
       });
   }
 
