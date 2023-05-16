@@ -6,6 +6,7 @@ import axios from "axios";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
+import LogoutButton from "./LogoutButton";
 
 function Home() {
   const [meetings, setMeetings] = useState([]);
@@ -71,13 +72,15 @@ function Home() {
     <>
       <Navbar bg="light" expand="lg">
         <Container>
-          <Navbar.Brand href="#home">SpringZomm</Navbar.Brand>
+          <Navbar.Brand href="/home">SpringZomm</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link href="/home">Home</Nav.Link>
               <Nav.Link href="/contacts">Contacts</Nav.Link>
               <Nav.Link href="/newmeeting">Add Meeting</Nav.Link>
+<LogoutButton />
+
             </Nav>
           </Navbar.Collapse>
         </Container>
