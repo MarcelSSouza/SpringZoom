@@ -3,6 +3,9 @@ package com.springzoom.springzoom.Controller;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -85,7 +88,6 @@ public class UserController {
 
         return user.getContacts();
     }
-
     @PostMapping("/{userId}/contacts")
     public ResponseEntity<String> addContact(@PathVariable Long userId, @RequestBody User contact) {
         Optional<User> optionalUser = userRepository.findById(userId);
@@ -93,12 +95,12 @@ public class UserController {
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             Set<User> contacts = user.getContacts();
-            
+    
             // Check if the contact already exists in the user's contacts
             if (contacts.contains(contact)) {
                 return ResponseEntity.badRequest().body("Contact already exists");
             }
-            
+    
             // Add the contact to the user's contacts
             contacts.add(contact);
             userRepository.save(user);
@@ -108,21 +110,27 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
     }
+    
      
-    @DeleteMapping("/{id}/contacts/{contactId}")
-    public User removeContact(@PathVariable Long id, @PathVariable Long contactId) {
-        User user = userRepository.findById(id)
-                .orElseThrow();
-
-        User contact = userRepository.findById(contactId)
-                .orElseThrow();
-
-        user.getContacts().remove(contact);
-        contact.getContacts().remove(user);
-
-        userRepository.save(user);
-        userRepository.save(contact);
-
-        return user;
+    @DeleteMapping("/{userId}/contacts/{contactId}")
+    public ResponseEntity<?> removeContact(@PathVariable Long userId, @PathVariable Long contactId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        Optional<User> optionalContact = userRepository.findById(contactId);
+    
+        if (optionalUser.isPresent() && optionalContact.isPresent()) {
+            User user = optionalUser.get();
+            User contact = optionalContact.get();
+    
+            user.getContacts().remove(contact);
+            contact.getContacts().remove(user);
+    
+            userRepository.save(user);
+            userRepository.save(contact);
+    
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
+    
 }
