@@ -1,10 +1,10 @@
 package com.springzoom.springzoom.Controller;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+
 import java.util.List;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -75,6 +75,29 @@ public class MeetingController {
     
         return ResponseEntity.ok(meetings);
     }
+    @PutMapping("/meetings/{meetingId}")
+    public ResponseEntity<Meeting> updateMeeting(@PathVariable Long meetingId, @Validated @RequestBody Meeting updatedMeeting) {
+        // Find the meeting by meeting ID
+        Meeting meeting = meetingRepository.findByMeetingId(meetingId);
+        
+        if (meeting == null) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        // Update the meeting properties with the new values
+        meeting.setTitle(updatedMeeting.getTitle());
+        meeting.setMeetingDate(updatedMeeting.getMeetingDate());
+        meeting.setMeetingTime(updatedMeeting.getMeetingTime());
+        meeting.setEmail1(updatedMeeting.getEmail1());
+        meeting.setEmail2(updatedMeeting.getEmail2());
+        
+        // Save the updated meeting to the database
+        Meeting savedMeeting = meetingRepository.save(meeting);
+        
+        return ResponseEntity.ok(savedMeeting);
+    }
+    
+
     
     @DeleteMapping("/meetings/delete/{meetingId}") 
         public ResponseEntity<Meeting> deleteMeeting(@PathVariable Long meetingId) {

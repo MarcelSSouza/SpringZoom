@@ -12,7 +12,6 @@ import jakarta.persistence.Table;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 @Entity
 @Table(name = "meetings")
 public class Meeting {

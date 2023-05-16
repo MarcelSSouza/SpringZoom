@@ -1,7 +1,5 @@
 package com.springzoom.springzoom.Entity;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -13,10 +11,8 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.JoinColumn;
-import java.util.Objects;
 import java.util.Set;
 
-import org.hibernate.engine.internal.Cascade;
 
 @Entity
 @Table(name = "users")
