@@ -34,10 +34,6 @@ The base URL for all API endpoints is `http://localhost:8080`.
 
 The User Controller API provides endpoints for managing user information and contacts.
 
-## Base URL
-
-The base URL for all API endpoints is `http://localhost:8080`.
-
 ## Endpoints
 
 ### Get All Users
