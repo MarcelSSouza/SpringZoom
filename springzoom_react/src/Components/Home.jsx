@@ -46,10 +46,10 @@ function Home() {
 
 
   useEffect(() => {
-    if (user) {
+    if (!!user) {
       fetchMeetingsByEmail(user.email);
     }
-  }, [user]);
+  }, []);
 
   const fetchMeetingsByEmail = (email) => {
     axios
