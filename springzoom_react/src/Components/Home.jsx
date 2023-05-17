@@ -15,12 +15,6 @@ function Home() {
   const user = storedUser ? JSON.parse(storedUser) : null;
   const [editingMeeting, setEditingMeeting] = useState(null);
 
-  const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
-  const [hour, setHour] = useState("");
-  const [yourEmail, setYourEmail] = useState("");
-  const [otherUserEmail, setOtherUserEmail] = useState("");
-
   const handleEditClick = (meeting) => {
     setEditingMeeting(meeting);
     setSelectedMeeting(null); // Reset the selected meeting when editing starts
