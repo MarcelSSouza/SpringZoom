@@ -11,11 +11,7 @@ plugins {
 }
 
  
-jacocoTestReport {
-    reports {
-        xml.enabled true
-    }
-}
+
 
 sonarqube {
   properties {
