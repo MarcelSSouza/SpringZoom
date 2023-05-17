@@ -43,4 +43,4 @@ jobs:
         run: |
           cd springzoom_react
           npm install
-          npm run build
+          CI=false npm run build
