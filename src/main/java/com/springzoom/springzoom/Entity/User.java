@@ -11,6 +11,8 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.JoinColumn;
+
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -61,6 +63,13 @@ public class User {
         this.id = id;
         this.name = name;
         this.email = email;
+    }
+    public User(Long id, String name, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.contacts = new HashSet<>();
     }
     public Long getId() {
         return this.id;
