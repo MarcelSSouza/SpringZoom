@@ -6,7 +6,6 @@ on:
       - main
   pull_request:
     branches:
-
       - main
 
 jobs:
@@ -14,7 +13,6 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-
       mysql:
         image: mysql:latest
         env:
@@ -24,7 +22,6 @@ jobs:
           - 3306:3306
         options: --health-cmd "mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 3
 
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -32,9 +29,8 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
-          java-version: '17'
-          distribution: 'temurin'
-
+          java-version: "17"
+          distribution: "temurin"
 
       - name: Build and test Spring Boot API
         run: ./gradlew clean build --info
@@ -49,7 +45,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: "14"
 
       - name: Install dependencies and build React frontend
         run: |

@@ -1,24 +1,21 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.0.6'
-	id 'io.spring.dependency-management' version '1.1.0'
+    id 'java'
+    id 'org.springframework.boot' version '3.0.6'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'jacoco'
+    id 'org.sonarqube' version '3.5.0.2730'
 }
 
-plugins {
-  id "org.sonarqube" version "3.5.0.2730"
-      id "jacoco"
-
+jacoco {
+    toolVersion = "0.8.7" // Optional: Specify the Jacoco version you want to use
 }
-
- 
-
 
 sonarqube {
-  properties {
-    property "sonar.projectKey", "MarcelSSouza_SpringZoom"
-    property "sonar.organization", "marcelssouza"
-    property "sonar.host.url", "https://sonarcloud.io"
-  }
+    properties {
+        property "sonar.projectKey", "MarcelSSouza_SpringZoom"
+        property "sonar.organization", "marcelssouza"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
 }
 
 group = 'com.springzoom'
@@ -26,25 +23,29 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'javax.servlet:javax.servlet-api:4.0.1'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'com.mysql:mysql-connector-j'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-
-
-
-
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
+}
+
+jacocoTestReport {
+    dependsOn = ['test']
+    reports {
+      xml.required = false
+        csv.required = false
+        html.required = true
+    }
 }
