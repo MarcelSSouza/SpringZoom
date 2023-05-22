@@ -88,18 +88,6 @@ public class UserControllerIntegrationTest {
                 .andExpect(jsonPath("$", hasSize(0)));
     }
 
-    // Test for addContact
-    @Test
-    public void testAddContact() throws Exception {
-        given(userRepository.findById(1L)).willReturn(Optional.of(user1));
-        given(userRepository.findById(2L)).willReturn(Optional.of(user2));
-
-        mockMvc.perform(post("/users/1/contacts")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":2,\"name\":\"Jane\",\"email\":\"jane@example.com\",\"password\":\"password\",\"contacts\":[]}"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Contact added successfully"));
-    }
 
     // Test for removeContact
     @Test

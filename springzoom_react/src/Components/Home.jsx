@@ -21,7 +21,7 @@ function Home() {
   };
   const handleSaveChanges = () => {
     axios
-      .put(`http://spring:8080/meetings/${editingMeeting.meetingId}`, editingMeeting)
+      .put(`http://localhost:8080/meetings/${editingMeeting.meetingId}`, editingMeeting)
       .then((response) => {
         alert("Meeting updated successfully!");
         setEditingMeeting(null);
@@ -47,7 +47,7 @@ function Home() {
 
   const fetchMeetingsByEmail = (email) => {
     axios
-      .get(`http://spring:8080/meetings/${email}`)
+      .get(`http://localhost:8080/meetings/${email}`)
       .then((response) => {
         setMeetings(response.data);
       })

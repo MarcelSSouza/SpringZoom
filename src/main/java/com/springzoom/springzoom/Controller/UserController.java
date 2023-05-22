@@ -41,7 +41,13 @@ public class UserController {
 
     @PostMapping("")
     public User createUser(@RequestBody User user) {
-        return userRepository.save(user);
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            throw new RuntimeException("Email already exists");
+        }
+        else{
+
+            return userRepository.save(user);
+        }
     }
 
     @PostMapping("/login")
@@ -93,20 +99,32 @@ public class UserController {
             User user = optionalUser.get();
             Set<User> contacts = user.getContacts();
     
-            // Check if the contact already exists in the user's contacts
-            if (contacts.contains(contact)) {
-                return ResponseEntity.badRequest().body("Contact already exists");
+            // Check if the contact already exists in the user's contacts based on email
+            User existingContact = userRepository.findByEmail(contact.getEmail());
+            if (existingContact != null) {
+                if (contacts.contains(existingContact)) {
+                    return ResponseEntity.badRequest().body("Contact already exists");
+                }
+                // Add the existing contact to the user's contacts
+                contacts.add(existingContact);
+                user.setContacts(contacts);
+                userRepository.save(user);
+    
+                // Add the user to the contact's contacts as well
+                Set<User> contactContacts = existingContact.getContacts();
+                contactContacts.add(user);
+                existingContact.setContacts(contactContacts);
+                userRepository.save(existingContact);
+    
+                return ResponseEntity.ok("Contact added successfully");
+            } else {
+                return ResponseEntity.badRequest().body("Contact not found");
             }
-    
-            // Add the contact to the user's contacts
-            contacts.add(contact);
-            userRepository.save(user);
-    
-            return ResponseEntity.ok("Contact added successfully");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
     }
+    
     
      
     @DeleteMapping("/{userId}/contacts/{contactId}")

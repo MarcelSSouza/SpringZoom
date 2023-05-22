@@ -15,6 +15,8 @@ import jakarta.persistence.JoinColumn;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name = "users")
@@ -38,6 +40,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "contact_id")
     )
+    @JsonIgnore
     private Set<User> contacts;
     
     @ManyToMany(cascade = CascadeType.ALL)
