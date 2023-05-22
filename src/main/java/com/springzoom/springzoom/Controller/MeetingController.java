@@ -68,8 +68,6 @@ public class MeetingController {
         }
          LocalDate currentDate = LocalDate.now();
         
-        System.out.println(currentDate);
-        // Retrieve the current and upcoming meetings associated with the user
         List<Meeting> meetings = meetingRepository.findByEmail1OrEmail2AndMeetingDateAfter(email, email, currentDate);
     
         return ResponseEntity.ok(meetings);

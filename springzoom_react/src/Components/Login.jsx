@@ -7,9 +7,6 @@ import { useContext } from 'react';
 import UserContext from './UserContext';
 import { useNavigate } from 'react-router-dom';
 
-// Rest of the code remains the same
-
-
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

@@ -19,8 +19,6 @@ function Register() {
         setEmail('');
         setPassword('');  
         setName('');
-
-        
       })
       .catch(error => {
         alert(error);

@@ -10,7 +10,7 @@ jacoco {
     toolVersion = "0.8.7" // Optional: Specify the Jacoco version you want to use
 }
 
-sonarqube {
+sonar {
     properties {
         property "sonar.projectKey", "MarcelSSouza_SpringZoom"
         property "sonar.organization", "marcelssouza"
@@ -30,6 +30,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.0'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.hibernate.validator:hibernate-validator:7.0.2.Final' // Add Hibernate Validator dependency
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -43,6 +44,7 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+
 jacocoTestReport {
     dependsOn = ['test']
     reports {
@@ -50,4 +52,7 @@ jacocoTestReport {
         csv.required = false
         html.required = true
     }
+}
+test {
+    finalizedBy jacocoTestReport // Generate JaCoCo test coverage report after running tests
 }

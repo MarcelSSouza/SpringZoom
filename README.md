@@ -1,83 +1,32 @@
-# Documentation for the API
+# SpringZoom
 
-# Meeting Controller API Documentation
+### Abstract
 
-The Meeting Controller API provides endpoints for managing meetings between users.
+The SpringZoom Meeting Management Application is a web-based platform that allows users to schedule and manage meetings with other users. The application provides functionalities to create, update, and delete meetings, as well as manage user contacts for easy meeting invitations. The backend of the application is developed using Spring Boot, while the frontend is built using React.js.
 
-## Base URL
+The backend API consists of two main controllers: UserController and MeetingController. The UserController handles user-related operations such as user registration, login, user profile management, and managing user contacts. The MeetingController handles meeting-related operations such as creating new meetings, updating meeting details, retrieving meetings by user email, and deleting meetings.
 
-The base URL for all API endpoints is `http://localhost:8080`.
+The application uses a MySQL database to store user and meeting information. User and Meeting entities are defined and mapped to corresponding database tables using Spring Data JPA. The application ensures data integrity and validation through input validation and error handling.
 
-## Endpoints
+The frontend of the application is developed using React.js and interacts with the backend API through RESTful API calls. The frontend provides a user-friendly interface for users to create meetings, view their upcoming meetings, update meeting details, and manage their contacts. The UI components are designed to be intuitive and responsive, providing a seamless user experience.
 
-### Create Meeting
+The project is containerized using Docker, allowing for easy deployment and scalability. The Docker Compose file is provided to set up the development environment, including the backend, frontend, and MySQL database containers.
 
-- **Endpoint**: `POST /meetings`
-- **Description**: Creates a new meeting between two users.
+The application can be deployed to AWS using services like Amazon ECS (Elastic Container Service) or Amazon EKS (Elastic Kubernetes Service) for container orchestration. Deployment pipelines can be set up using AWS CodePipeline and AWS CodeBuild to automate the build, test, and deployment processes.
 
-### Get Meetings by Email
+The SpringZoom Meeting Management Application provides a reliable and efficient solution for scheduling and managing meetings, enhancing productivity and collaboration among users.
 
-- **Endpoint**: `GET /meetings/{email}`
-- **Description**: Retrieves all current and upcoming meetings associated with the specified email.
+### Team
 
-### Update Meeting
+Aluno Marcel Santos Souza - 101043
 
-- **Endpoint**: `PUT /meetings/{meetingId}`
-- **Description**: Updates the details of a specific meeting.
+### Project Bookmarks:
 
-### Delete Meeting
+- CI (Github Actions): [https://github.com/MarcelSSouza/SpringZoom/actions]()
+- SonarQube Static Code Analisis: **[https://sonarcloud.io/summary/overall?id=MarcelSSouza_SpringZoom]()**
+- Documentation of the API: **[localhost:8080/swagger-ui/index.html]()**
+- Docker Compose: Inside the project folder. All running inside docker.
 
-- **Endpoint**: `DELETE /meetings/delete/{meetingId}`
-- **Description**: Deletes a specific meeting.
+### How to run?
 
-# User Controller API Documentation
-
-The User Controller API provides endpoints for managing user information and contacts.
-
-## Endpoints
-
-### Get All Users
-
-- **Endpoint**: `GET /users`
-- **Description**: Retrieves a list of all users.
-
-### Get User by ID
-
-- **Endpoint**: `GET /users/{id}`
-- **Description**: Retrieves a user by their ID.
-
-### Create User
-
-- **Endpoint**: `POST /users`
-- **Description**: Creates a new user.
-
-### Login User
-
-- **Endpoint**: `POST /users/login`
-- **Description**: Logs in a user with their email and password.
-
-### Update User
-
-- **Endpoint**: `PUT /users/{id}`
-- **Description**: Updates the details of a specific user.
-
-### Delete User
-
-- **Endpoint**: `DELETE /users/{id}`
-- **Description**: Deletes a specific user.
-
-### Get User Contacts
-
-- **Endpoint**: `GET /users/{id}/contacts`
-- **Description**: Retrieves the contacts of a specific user.
-
-### Add Contact
-
-- **Endpoint**: `POST /users/{userId}/contacts`
-- **Description**: Adds a contact to a user's contact list.
-
-### Remove Contact
-
-- **Endpoint**: `DELETE /users/{userId}/contacts/{contactId}`
-- **Description**: Removes a contact from a user's contact list.
-
+**Just run docker-compose up and access the localhost:3000 (ReactJS)**

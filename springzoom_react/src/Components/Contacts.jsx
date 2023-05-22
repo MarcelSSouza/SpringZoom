@@ -20,7 +20,7 @@ function Contacts() {
   }, []);
 
   const fetchContacts = () => {
-    axios.get(`http://localhost:8080/users/${user.id}/contacts`)
+    axios.get(`http://spring:8080/users/${user.id}/contacts`)
       .then(response => {
         setContacts(response.data);
       })
@@ -32,7 +32,7 @@ function Contacts() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = { name: name, email: email };
-    axios.post(`http://localhost:8080/users/${user.id}/contacts`, data)
+    axios.post(`http://spring:8080/users/${user.id}/contacts`, data)
       .then(response => {
         console.log(response
 );
@@ -47,7 +47,7 @@ alert("Failed to add contact!");
 };
 
 const deletar = (contactid) => {
-axios.delete(`http://localhost:8080/users/${user.id}/contacts/${contactid}`)
+axios.delete(`http://spring:8080/users/${user.id}/contacts/${contactid}`)
 .then(response => {
 alert("Contact deleted successfully!");
 fetchContacts();
