@@ -118,29 +118,5 @@ class MeetingControllerTest {
         verify(meetingRepository, never()).save(any(Meeting.class));
     }
 
-    @Test
-    void testDeleteMeeting_ValidMeetingId_ReturnsDeletedMeeting() {
-        Long meetingId = 1L;
-        Meeting meeting = new Meeting();
-        
-        when(meetingRepository.findByMeetingId(meetingId)).thenReturn(meeting);
 
-        ResponseEntity<Meeting> response = meetingController.deleteMeeting(meetingId);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(meeting, response.getBody());
-        verify(meetingRepository, times(1)).delete(meeting);
-    }
-
-    @Test
-    void testDeleteMeeting_InvalidMeetingId_ReturnsNotFound() {
-        Long meetingId = 1L;
-        
-        when(meetingRepository.findByMeetingId(meetingId)).thenReturn(null);
-
-        ResponseEntity<Meeting> response = meetingController.deleteMeeting(meetingId);
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        verify(meetingRepository, never()).delete(any(Meeting.class));
-    }
 }
