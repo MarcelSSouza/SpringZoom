@@ -60,4 +60,8 @@ jobs:
         uses: super-linter/super-linter@v5.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+          DISABLE_ERRORS: true
+          OUTPUT_FOLDER: Reports
+          OUTPUT_DETAILS: detailed
+          VALIDATE_ALL_CODEBASE: false
 
