@@ -52,4 +52,11 @@ jobs:
           cd springzoom_react
           npm install
           CI=false npm run build
- 
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Super-Linter
+        uses: super-linter/super-linter@v5.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+
